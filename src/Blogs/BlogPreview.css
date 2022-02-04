@@ -1,0 +1,29 @@
+.blogs * {
+  box-sizing: border-box;
+}
+.blogs{
+  margin-top: 45%;
+  padding: 5%;
+  background-color: bisque;
+}
+
+.blogs h1{
+  align-content: center;
+}
+.blogs ::-webkit-scrollbar {
+    width: 0px;
+  }
+  
+  .blogs .container {
+    display: flex;
+    overflow-x: scroll;
+    width: 100%;
+  }
+  
+  .blogs .card {
+    flex-shrink: 0;
+    width:fit-content ;
+    height:fit-content ;
+    border-radius: 10px;
+    margin-left: 10px;
+  }

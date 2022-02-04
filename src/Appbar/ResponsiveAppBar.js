@@ -4,38 +4,66 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+import Badge from '@mui/material/Badge';
+import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import EmailIcon from '@mui/icons-material/Email';
+import { NavLink } from 'react-router-dom';
 
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
+  const pages = [{ name: 'Projects', link: '/Projects' },
+{ name: 'Blogs', link: '/Blogs' },
+{ name: 'Catch Up', link: '/CatchUp' }];
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
+  const linkedin = "https://www.linkedin.com/in/pragati-prashant-bagul/";
+  const github = "https://github.com/PragatiBagul";
+
+  const githubLink = () =>
+  {
+    window.location.href = github;
+  }
+  const linkedinLink = () =>
+  {
+    window.location.href = linkedin;
+  }
+  const [open, setOpen] = React.useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
   };
 
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+  const emailLink = () =>
+  {
+    const email = "bagulpragati15@gmail.com";
+    console.log(email);
+    navigator.clipboard.writeText(email);
+    handleClick();
+  }
   return (
-      <AppBar position="sticky" top="0">
+    <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -44,9 +72,11 @@ const ResponsiveAppBar = () => {
             component="div"
             sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
           >
-            LOGO
-          </Typography>
-
+            <NavLink to='/'  style={{textDecoration:'none',color:'white'}} style={{textDecoration:'none'}}>
+            Pragati Bagul
+            </NavLink>
+            </Typography>
+            
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -56,7 +86,7 @@ const ResponsiveAppBar = () => {
               onClick={handleOpenNavMenu}
               color="inherit"
             >
-              <MenuIcon />
+              <MenuIcon/>
             </IconButton>
             <Menu
               id="menu-appbar"
@@ -77,64 +107,58 @@ const ResponsiveAppBar = () => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                <MenuItem key={page.name} onClick={handleCloseNavMenu}>
+                  <NavLink to={page.link}><Typography textAlign="center">{page.name}</Typography></NavLink>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
+          
           <Typography
             variant="h6"
             noWrap
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
           >
-            LOGO
+            <NavLink to='/'  style={{textDecoration:'none',color:'white'}}>Pragati Bagul</NavLink>
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
+              <NavLink to={page.link}>
               <Button
-                key={page}
+                key={page.name}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                {page}
-              </Button>
+                {page.name}
+              </Button></NavLink>
             ))}
           </Box>
-
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
+          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+          <IconButton size="large" color="inherit">
+              <Badge>
+                <EmailIcon onClick={ emailLink }/>
+              </Badge>
+            </IconButton>
+            <IconButton size="large" color="inherit">
+              <Badge>
+                <GitHubIcon onClick={ githubLink}/>
+              </Badge>
+            </IconButton>
+            <IconButton size="large" color="inherit">
+              <Badge>
+                <LinkedInIcon onClick={linkedinLink}/>
+              </Badge>
+            </IconButton>
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+              <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                Email Copied!
+              </Alert>
+            </Snackbar>
           </Box>
         </Toolbar>
       </Container>
-    </AppBar>
+      </AppBar>
   );
 };
 export default ResponsiveAppBar;
