@@ -8,7 +8,8 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 function App() {
   return (   
     <Router>
-    <div className="App">
+      <div className="App">
+        <h1>Delete this...</h1>
       <ResponsiveAppBar />
       <Switch>
         <Route exact path="/">
